@@ -7,11 +7,6 @@ services:
     envVars:
       - key: APP_KEY
         generateValue: true
-      - key: APP_URL
-        fromService:
-          type: web
-          name: bai
-          property: host
       - key: APP_NAME
         value: bAI
       - key: APP_ENV
