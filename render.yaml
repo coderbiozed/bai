@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: best-teacher
+    name: bai
     runtime: docker
     plan: free
     healthCheckPath: /up
@@ -10,7 +10,7 @@ services:
       - key: APP_URL
         fromService:
           type: web
-          name: best-teacher
+          name: bai
           property: host
       - key: APP_NAME
         value: bAI
