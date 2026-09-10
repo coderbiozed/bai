@@ -1,0 +1,9 @@
+# Static placeholder only — Laravel cannot run on Netlify.
+[build]
+  publish = "netlify-site"
+  command = "echo 'Static Netlify placeholder for bAI'"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
