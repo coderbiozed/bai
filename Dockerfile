@@ -1,22 +1,41 @@
 # bAI — Laravel (PHP). Netlify cannot run this stack.
 FROM php:8.4-cli-bookworm
 
-RUN apt-get update && apt-get install -y \
-    git unzip libsqlite3-dev libzip-dev nodejs npm \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git unzip curl ca-certificates libsqlite3-dev libzip-dev \
+    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y --no-install-recommends nodejs \
     && docker-php-ext-install pdo_sqlite zip \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && node -v && npm -v
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
+
+COPY composer.json composer.lock ./
+RUN mkdir -p bootstrap/cache storage/framework/{cache,sessions,views} storage/logs database \
+    && COMPOSER_ALLOW_SUPERUSER=1 composer install \
+        --no-dev \
+        --optimize-autoloader \
+        --no-interaction \
+        --no-scripts \
+        --prefer-dist
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
 COPY . .
 
-RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader --no-interaction \
-    && npm ci \
+# Artisan scripts need a writable cache + a non-empty APP_KEY during build.
+RUN cp .env.example .env \
+    && php -r "file_put_contents('.env', preg_replace('/^APP_KEY=.*/m', 'APP_KEY=base64:'.base64_encode(random_bytes(32)), file_get_contents('.env')));" \
+    && COMPOSER_ALLOW_SUPERUSER=1 composer dump-autoload --optimize --no-interaction \
+    && php artisan package:discover --ansi \
     && npm run build \
-    && mkdir -p database storage/framework/{cache,sessions,views} storage/logs bootstrap/cache \
     && touch database/database.sqlite \
-    && chmod -R 777 storage bootstrap/cache database
+    && chmod -R 777 storage bootstrap/cache database \
+    && rm -f public/hot
 
 ENV APP_ENV=production
 ENV APP_DEBUG=false
