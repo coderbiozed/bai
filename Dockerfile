@@ -35,11 +35,13 @@ RUN cp .env.example .env \
     && npm run build \
     && touch database/database.sqlite \
     && chmod -R 777 storage bootstrap/cache database \
-    && rm -f public/hot
+    && rm -f public/hot \
+    && test -f public/build/manifest.json
 
 ENV APP_ENV=production
 ENV APP_DEBUG=false
 ENV LOG_CHANNEL=stderr
+ENV LOG_LEVEL=debug
 ENV SESSION_DRIVER=file
 ENV CACHE_STORE=file
 ENV QUEUE_CONNECTION=sync
@@ -48,9 +50,7 @@ ENV DB_DATABASE=/app/database/database.sqlite
 
 EXPOSE 8080
 
-CMD php artisan migrate --force \
-    && php artisan db:seed --force \
-    && php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache \
-    && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}
+COPY docker/start.sh /usr/local/bin/start-bai
+RUN chmod +x /usr/local/bin/start-bai
+
+CMD ["start-bai"]
