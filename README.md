@@ -72,6 +72,8 @@ Routes: `/login`, `/register`, `/profile`, `/logout`
 
 ## Deploy
 
+**GitHub:** https://github.com/coderbiozed/bai
+
 ### Important: Netlify cannot run Laravel
 
 Netlify is for static sites / serverless JS. This app needs **PHP + sessions + SQLite/MySQL**.
@@ -81,15 +83,16 @@ Netlify is for static sites / serverless JS. This app needs **PHP + sessions + S
 
 ### Render (recommended for the full app)
 
-1. Push this repo to GitHub
-2. Create a Web Service on [Render](https://render.com) → connect repo → Docker runtime
-3. Set `APP_KEY` (run `php artisan key:generate --show` locally and paste)
-4. Deploy — migrate/seed run on boot
+One-click Blueprint (free Web Service):
 
-### Netlify placeholder
+[Deploy to Render](https://dashboard.render.com/blueprint/new?repo=https://github.com/coderbiozed/bai)
 
-```bash
-npx netlify deploy --dir=netlify-site --prod
-```
+Or manually:
 
-Then point the Netlify page at your Render URL when the Laravel app is live.
+1. Open the link above (or Render → New → Blueprint → connect `coderbiozed/bai`)
+2. Approve the `bai` Docker service from `render.yaml`
+3. Deploy — `APP_KEY` is generated; migrate/seed run on boot
+
+### Railway
+
+Railway CLI is supported (`railway up`), but needs an active paid/trial plan.
