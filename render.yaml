@@ -5,8 +5,9 @@ services:
     plan: free
     healthCheckPath: /up
     envVars:
-      # Never use generateValue for APP_KEY — it breaks Laravel encryption (500).
-      # start.sh installs a valid base64 32-byte key on boot when missing/invalid.
+      # Must be a real Laravel key (base64 + 32 bytes). Never use generateValue.
+      - key: APP_KEY
+        value: base64:eOmCqltp/cpmpEdwAkynEMoP8OC9/PKrU7d8UPkvkxY=
       - key: APP_NAME
         value: bAI
       - key: APP_ENV

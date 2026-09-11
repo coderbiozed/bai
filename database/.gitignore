@@ -1,1 +1,3 @@
-*.sqlite*
+*
+!demo.sqlite
+!.gitignore

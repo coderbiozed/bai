@@ -27,21 +27,28 @@ RUN npm ci
 
 COPY . .
 
-# Artisan scripts need a writable cache + a non-empty APP_KEY during build.
+# Build assets + install a valid key for artisan during image build.
 RUN cp .env.example .env \
     && php -r "file_put_contents('.env', preg_replace('/^APP_KEY=.*/m', 'APP_KEY=base64:'.base64_encode(random_bytes(32)), file_get_contents('.env')));" \
     && COMPOSER_ALLOW_SUPERUSER=1 composer dump-autoload --optimize --no-interaction \
     && php artisan package:discover --ansi \
     && npm run build \
-    && touch database/database.sqlite \
-    && chmod -R 777 storage bootstrap/cache database \
     && rm -f public/hot \
-    && test -f public/build/manifest.json
+    && test -f public/build/manifest.json \
+    && if [ -f database/demo.sqlite ]; then \
+         cp database/demo.sqlite database/database.sqlite; \
+       else \
+         touch database/database.sqlite \
+         && php artisan migrate --force --no-interaction \
+         && php artisan db:seed --force --no-interaction; \
+       fi \
+    && chmod -R 777 storage bootstrap/cache database \
+    && test -s database/database.sqlite
 
 ENV APP_ENV=production
 ENV APP_DEBUG=false
 ENV LOG_CHANNEL=stderr
-ENV LOG_LEVEL=debug
+ENV LOG_LEVEL=warning
 ENV SESSION_DRIVER=file
 ENV CACHE_STORE=file
 ENV QUEUE_CONNECTION=sync

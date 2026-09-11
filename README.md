@@ -72,27 +72,27 @@ Routes: `/login`, `/register`, `/profile`, `/logout`
 
 ## Deploy
 
+**Live app:** https://bai-rwtf.onrender.com  
 **GitHub:** https://github.com/coderbiozed/bai
 
-### Important: Netlify cannot run Laravel
+### Important: Netlify / GitHub Pages cannot run Laravel
 
-Netlify is for static sites / serverless JS. This app needs **PHP + sessions + SQLite/MySQL**.
+This app needs **PHP + sessions + SQLite**. Netlify and GitHub Pages are static hosts only.
 
-- `netlify.toml` + `netlify-site/` = **placeholder page only** (safe to publish on Netlify as a note/redirect)
-- Real app: use **Render** (`render.yaml` + `Dockerfile`) or Railway with the same Docker image
+- `netlify-site/` redirects visitors to the live Render URL
+- Real app runs on **Render** via Docker (`Dockerfile` + `render.yaml`)
 
-### Render (recommended for the full app)
+### Render
 
-One-click Blueprint (free Web Service):
+Auto-deploys from `main`. Blueprint:
 
 [Deploy to Render](https://dashboard.render.com/blueprint/new?repo=https://github.com/coderbiozed/bai)
 
-Or manually:
+### Netlify (redirect only)
 
-1. Open the link above (or Render → New → Blueprint → connect `coderbiozed/bai`)
-2. Approve the `bai` Docker service from `render.yaml`
-3. Deploy — `APP_KEY` is generated; migrate/seed run on boot
+```bash
+npx netlify deploy --dir=netlify-site --prod
+```
 
-### Railway
+That publishes a tiny page that sends users to https://bai-rwtf.onrender.com
 
-Railway CLI is supported (`railway up`), but needs an active paid/trial plan.
