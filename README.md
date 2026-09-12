@@ -75,11 +75,15 @@ Routes: `/login`, `/register`, `/profile`, `/logout`
 **Live app:** https://bai-rwtf.onrender.com  
 **GitHub:** https://github.com/coderbiozed/bai
 
+### Slow first load?
+
+Render’s **free** plan sleeps after ~15 minutes idle, so the first visit can wait 30–60s. A GitHub Action (`.github/workflows/keep-warm.yml`) pings `/up` every 10 minutes to keep it awake. For always-on hosting, upgrade the Render web service off the free plan.
+
 ### Important: Netlify / GitHub Pages cannot run Laravel
 
 This app needs **PHP + sessions + SQLite**. Netlify and GitHub Pages are static hosts only.
 
-- `netlify-site/` redirects visitors to the live Render URL
+- `netlify-site/` is a fast wake page that polls health then opens Render
 - Real app runs on **Render** via Docker (`Dockerfile` + `render.yaml`)
 
 ### Render
@@ -88,11 +92,9 @@ Auto-deploys from `main`. Blueprint:
 
 [Deploy to Render](https://dashboard.render.com/blueprint/new?repo=https://github.com/coderbiozed/bai)
 
-### Netlify (redirect only)
+### Netlify (wake page only)
 
 ```bash
 npx netlify deploy --dir=netlify-site --prod
 ```
-
-That publishes a tiny page that sends users to https://bai-rwtf.onrender.com
 
