@@ -45,6 +45,16 @@ class AiRecommendation
             'forex' => ['platform' => 'ChatGPT', 'model' => 'GPT-5'],
             'travel' => ['platform' => 'Claude', 'model' => 'Sonnet 4'],
             'media' => ['platform' => 'ChatGPT', 'model' => 'GPT-5'],
+            'meta-manager' => ['platform' => 'ChatGPT', 'model' => 'GPT-5'],
+            'content' => ['platform' => 'Claude', 'model' => 'Sonnet 4'],
+            'article-writer' => ['platform' => 'Claude', 'model' => 'Sonnet 4'],
+            'blog-writer' => ['platform' => 'ChatGPT', 'model' => 'GPT-5'],
+            'admin' => ['platform' => 'ChatGPT', 'model' => 'GPT-5'],
+            'finances' => ['platform' => 'ChatGPT', 'model' => 'GPT-5'],
+            'seo-pro' => ['platform' => 'ChatGPT', 'model' => 'GPT-5'],
+            'cto' => ['platform' => 'Cursor', 'model' => 'Claude Sonnet'],
+            'math-learning' => ['platform' => 'ChatGPT', 'model' => 'GPT-5'],
+            'english-learning' => ['platform' => 'ChatGPT', 'model' => 'GPT-5'],
             default => ['platform' => 'ChatGPT', 'model' => 'GPT-5'],
         };
     }

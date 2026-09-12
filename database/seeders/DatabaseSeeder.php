@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             MassVerifiedPromptSeeder::class,
             JourneyPlaybookSeeder::class,
             NicheVerticalsSeeder::class,
+            NewTopicsSeeder::class,
         ]);
     }
 }

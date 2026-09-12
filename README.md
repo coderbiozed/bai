@@ -32,7 +32,7 @@ Open [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
 ## Seeded library
 
-- **2,000+ verified prompts** across Development, YouTube, Marketing, Design, Graphics, Business, Writing, Career, Education
+- **2,000+ verified prompts** across Development, YouTube, Marketing, Design, Graphics, Business, Writing, Career, Education, plus Meta Manager, Content, Article/Blog Writer, Admin, Finances, SEO Pro, CTO, Math Learning, and English Learning
 - **Step-by-step journeys** including **Become a Great YouTuber** (15 steps), **Become a Graphic & Video Shorts Maker** (10 steps), Freelance Laravel, SEO Systems, React Features, Product Photos
 - Writing guide: prefer experience, domain, standards, behavior — avoid “world’s best”
 

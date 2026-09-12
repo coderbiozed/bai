@@ -51,11 +51,14 @@
 <div class="relative z-10 overflow-hidden border-y-4 border-lime bg-ink py-4">
     <div class="marquee-track font-display text-2xl uppercase text-lime sm:text-4xl">
         @foreach ([1, 2] as $loopCopy)
-            <span>Fintech Designer</span><span class="text-magenta">✦</span>
-            <span class="text-cyan">Forex Writer Pro</span><span class="text-sun">✦</span>
-            <span class="text-coral">Travel Creator</span><span class="text-lime">✦</span>
-            <span>Image Creator</span><span class="text-magenta">✦</span>
-            <span class="text-cyan">Shorts Maker</span><span class="text-sun">✦</span>
+            <span>Meta Manager</span><span class="text-magenta">✦</span>
+            <span class="text-cyan">Blog Writer</span><span class="text-sun">✦</span>
+            <span class="text-coral">CTO</span><span class="text-lime">✦</span>
+            <span>Math Tutor</span><span class="text-magenta">✦</span>
+            <span class="text-cyan">English Tutor</span><span class="text-sun">✦</span>
+            <span class="text-coral">Finances</span><span class="text-lime">✦</span>
+            <span>SEO Pro</span><span class="text-magenta">✦</span>
+            <span class="text-cyan">Article Writer</span><span class="text-sun">✦</span>
             <span class="text-coral">Media Manager</span><span class="text-lime">✦</span>
             <span>YouTuber Playbook</span><span class="text-magenta">✦</span>
         @endforeach
