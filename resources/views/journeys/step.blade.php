@@ -5,15 +5,15 @@
 @section('content')
 <section class="shell py-14 sm:py-20">
     <nav class="mb-8 text-sm text-white/55">
-        <a href="{{ route('journeys.index') }}" class="hover:text-teal">Journeys</a>
+        <a href="{{ route('journeys.index') }}" class="hover:text-cyan">Journeys</a>
         <span class="mx-2">/</span>
-        <a href="{{ route('journeys.show', $journey) }}" class="hover:text-teal">{{ $journey->title }}</a>
+        <a href="{{ route('journeys.show', $journey) }}" class="hover:text-cyan">{{ $journey->title }}</a>
         <span class="mx-2">/</span>
-        <span class="text-ink">Step {{ $current->step_number }}</span>
+        <span class="text-white">Step {{ $current->step_number }}</span>
     </nav>
 
     <div class="mb-6">
-        <div class="h-2 overflow-hidden rounded-full bg-ink/10">
+        <div class="h-2 overflow-hidden rounded-full bg-white/10">
             <div class="h-full rounded-full bg-teal transition-all"
                  style="width: {{ ($current->step_number / max($journey->steps->count(), 1)) * 100 }}%"></div>
         </div>
@@ -31,7 +31,6 @@
                 <x-ai-suggest-tags
                     :platform="$current->recommended_platform"
                     :model="$current->recommended_model"
-                    tone="dark"
                 />
             </div>
 
@@ -89,7 +88,7 @@
                                @class([
                                    'block rounded-xl px-3 py-2 text-sm transition',
                                    'bg-teal/10 font-semibold text-teal' => $step->step_number === $current->step_number,
-                                   'text-white/70 hover:bg-white/10 hover:text-ink' => $step->step_number !== $current->step_number,
+                                   'text-white/70 hover:bg-white/10 hover:text-white' => $step->step_number !== $current->step_number,
                                ])>
                                 {{ $step->step_number }}. {{ $step->title }}
                             </a>

@@ -5,9 +5,9 @@
 @section('content')
 <section class="shell py-14 sm:py-20">
     <nav class="mb-8 text-sm text-white/55">
-        <a href="{{ route('home') }}" class="hover:text-teal">Library</a>
+        <a href="{{ route('home') }}" class="hover:text-cyan">Library</a>
         <span class="mx-2">/</span>
-        <span class="text-ink">{{ $category->name }}</span>
+        <span class="text-white">{{ $category->name }}</span>
     </nav>
 
     <div class="max-w-2xl fade-up">

@@ -78,7 +78,7 @@
 
     .interactive-row { display: block; border-bottom: 1px solid rgb(255 255 255 / 0.16); padding: 1.5rem 0; transition: padding 200ms ease, background-color 200ms ease; }
     .interactive-row:hover { padding-inline: 1rem; background: rgb(255 255 255 / 0.06); }
-    .prompt-body { white-space: pre-wrap; font-size: 0.925rem; line-height: 1.75; color: rgb(255 255 255 / 0.82); }
+    .prompt-body { white-space: pre-wrap; font-size: 0.925rem; line-height: 1.75; color: rgb(255 255 255 / 0.88); }
 }
 
 @layer utilities {

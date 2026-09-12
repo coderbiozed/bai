@@ -4,37 +4,37 @@
 
 @section('content')
 <section class="shell py-14 sm:py-20">
-    <nav class="mb-8 text-sm text-ink/50">
-        <a href="{{ route('home') }}" class="hover:text-teal">Library</a>
+    <nav class="mb-8 text-sm text-white/55">
+        <a href="{{ route('home') }}" class="hover:text-cyan">Library</a>
         <span class="mx-2">/</span>
-        <a href="{{ route('categories.show', $category) }}" class="hover:text-teal">{{ $category->name }}</a>
+        <a href="{{ route('categories.show', $category) }}" class="hover:text-cyan">{{ $category->name }}</a>
         <span class="mx-2">/</span>
-        <a href="{{ route('subcategories.show', [$category, $subcategory]) }}" class="hover:text-teal">{{ $subcategory->name }}</a>
+        <a href="{{ route('subcategories.show', [$category, $subcategory]) }}" class="hover:text-cyan">{{ $subcategory->name }}</a>
         <span class="mx-2">/</span>
-        <span class="text-ink">Prompt</span>
+        <span class="text-white">Prompt</span>
     </nav>
 
     <div class="grid gap-10 lg:grid-cols-[1.4fr_0.8fr]">
         <div class="fade-up">
             <div class="flex flex-wrap items-center gap-2">
                 @if ($prompt->is_best)
-                    <span class="rounded-full bg-teal/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-teal">Best</span>
+                    <span class="rounded-full border border-lime/40 bg-lime/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-lime">Best</span>
                 @endif
                 @if ($prompt->is_verified)
-                    <span class="rounded-full bg-ink text-paper px-3 py-1 text-xs font-semibold uppercase tracking-wider">Verified</span>
+                    <span class="rounded-full border border-white/25 bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">Verified</span>
                 @endif
                 @if ($prompt->is_free)
-                    <span class="rounded-full bg-ink/5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-ink/55">Free</span>
+                    <span class="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white/75">Free</span>
                 @endif
                 <x-ai-suggest-tags :platform="$prompt->recommended_platform" :model="$prompt->recommended_model" />
-                <span class="text-xs uppercase tracking-wider text-ink/40">{{ $prompt->status }}</span>
+                <span class="text-xs uppercase tracking-wider text-white/50">{{ $prompt->status }}</span>
             </div>
 
-            <h1 class="mt-4 font-display text-4xl font-800 tracking-tight sm:text-5xl">{{ $prompt->title }}</h1>
+            <h1 class="mt-4 font-display text-4xl font-800 tracking-tight text-white sm:text-5xl">{{ $prompt->title }}</h1>
 
             <div class="surface mt-8 rounded-3xl p-6 sm:p-8">
                 <div class="mb-4 flex items-center justify-between gap-3">
-                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-ink/40">Prompt body</p>
+                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-white/45">Prompt body</p>
                     <livewire:copy-prompt-button :promptId="$prompt->id" :body="$prompt->body" />
                 </div>
                 <div class="prompt-body">{{ $prompt->body }}</div>
@@ -43,7 +43,7 @@
             @if ($prompt->tip_note)
                 <aside class="mt-6 rounded-3xl border border-amber/25 bg-amber/5 p-6">
                     <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber">One tip</p>
-                    <p class="mt-3 text-sm leading-relaxed text-ink/75">{{ $prompt->tip_note }}</p>
+                    <p class="mt-3 text-sm leading-relaxed text-white/80">{{ $prompt->tip_note }}</p>
                 </aside>
             @endif
         </div>
@@ -69,20 +69,20 @@
 
             @if ($prompt->recommended_platform || $prompt->recommended_model)
                 <div class="surface rounded-3xl p-6">
-                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-ink/40">Best with</p>
+                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-white/45">Best with</p>
                     <div class="mt-3">
                         <x-ai-suggest-tags :platform="$prompt->recommended_platform" :model="$prompt->recommended_model" />
                     </div>
-                    <p class="mt-3 text-xs leading-relaxed text-ink/50">Suggested AI platform and model for this prompt.</p>
+                    <p class="mt-3 text-xs leading-relaxed text-white/55">Suggested AI platform and model for this prompt.</p>
                 </div>
             @endif
 
             @if ($prompt->tags->isNotEmpty())
                 <div class="surface rounded-3xl p-6">
-                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-ink/40">Tags</p>
+                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-white/45">Tags</p>
                     <div class="mt-3 flex flex-wrap gap-2">
                         @foreach ($prompt->tags as $tag)
-                            <span class="rounded-full bg-ink/5 px-3 py-1 text-xs text-ink/60">{{ $tag->name }}</span>
+                            <span class="rounded-full bg-white/10 px-3 py-1 text-xs text-white/75">{{ $tag->name }}</span>
                         @endforeach
                     </div>
                 </div>
@@ -90,12 +90,12 @@
 
             @if ($related->isNotEmpty())
                 <div class="surface rounded-3xl p-6">
-                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-ink/40">More in {{ $subcategory->name }}</p>
+                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-white/45">More in {{ $subcategory->name }}</p>
                     <ul class="mt-4 space-y-3">
                         @foreach ($related as $item)
                             <li>
                                 <a href="{{ route('prompts.show', [$category, $subcategory, $item]) }}"
-                                   class="text-sm font-medium text-ink transition hover:text-teal">
+                                   class="text-sm font-medium text-white/85 transition hover:text-cyan">
                                     {{ $item->title }}
                                 </a>
                             </li>

@@ -27,11 +27,11 @@
                 <div class="mt-2 flex flex-wrap items-center gap-2">
                     <h2 class="font-display text-xl font-bold tracking-tight">{{ $prompt->title }}</h2>
                     @if ($prompt->is_best)
-                        <span class="rounded-full bg-teal/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-teal">Best</span>
+                        <span class="rounded-full border border-lime/40 bg-lime/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-lime">Best</span>
                     @endif
                     <x-ai-suggest-tags :platform="$prompt->recommended_platform" :model="$prompt->recommended_model" />
                 </div>
-                <p class="mt-3 line-clamp-2 text-sm text-white/70">{{ $prompt->body }}</p>
+                <p class="mt-3 line-clamp-2 text-sm text-white/75">{{ $prompt->body }}</p>
             </a>
         @empty
             <div class="surface rounded-3xl p-10 text-center text-white/60">

@@ -144,7 +144,6 @@
                     <x-ai-suggest-tags
                         :platform="$prompt->recommended_platform"
                         :model="$prompt->recommended_model"
-                        tone="dark"
                     />
                 </div>
                 <h3 class="font-display mt-4 text-2xl uppercase leading-tight text-white group-hover:text-lime sm:text-4xl">

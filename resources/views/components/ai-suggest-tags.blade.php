@@ -1,18 +1,15 @@
 @props([
     'platform' => null,
     'model' => null,
-    'tone' => 'light',
+    'tone' => 'dark',
 ])
 
 @php
     $platform = is_string($platform) ? trim($platform) : '';
     $model = is_string($model) ? trim($model) : '';
-    $platformClass = $tone === 'dark'
-        ? 'rounded-full bg-cyan/15 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-cyan'
-        : 'rounded-full bg-cyan/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-cyan';
-    $modelClass = $tone === 'dark'
-        ? 'rounded-full bg-magenta/15 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-magenta'
-        : 'rounded-full bg-magenta/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-magenta';
+    // Dark UI default: bright tags with borders so they stay readable on purple surfaces.
+    $platformClass = 'rounded-full border border-cyan/40 bg-cyan/20 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-cyan';
+    $modelClass = 'rounded-full border border-magenta/40 bg-magenta/20 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-magenta';
 @endphp
 
 @if ($platform !== '' || $model !== '')

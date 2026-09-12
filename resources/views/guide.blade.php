@@ -25,11 +25,11 @@
             <article class="surface rounded-3xl p-6 sm:p-8">
                 <h2 class="font-display text-2xl font-bold">Checklist</h2>
                 <ul class="mt-4 space-y-3 text-sm text-white/75">
-                    <li><strong class="text-ink">Role + seniority</strong> — Staff, Principal, Senior, CMO…</li>
-                    <li><strong class="text-ink">Domain</strong> — distributed systems, SEO, accessibility…</li>
-                    <li><strong class="text-ink">Responsibilities</strong> — what they own and optimize for</li>
-                    <li><strong class="text-ink">Standards</strong> — quality bar, constraints, exclusions</li>
-                    <li><strong class="text-ink">Behavior</strong> — how they should answer (trade-offs, steps, critique)</li>
+                    <li><strong class="text-lime">Role + seniority</strong> — Staff, Principal, Senior, CMO…</li>
+                    <li><strong class="text-lime">Domain</strong> — distributed systems, SEO, accessibility…</li>
+                    <li><strong class="text-lime">Responsibilities</strong> — what they own and optimize for</li>
+                    <li><strong class="text-lime">Standards</strong> — quality bar, constraints, exclusions</li>
+                    <li><strong class="text-lime">Behavior</strong> — how they should answer (trade-offs, steps, critique)</li>
                 </ul>
             </article>
         </div>
