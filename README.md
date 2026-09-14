@@ -73,28 +73,21 @@ Routes: `/login`, `/register`, `/profile`, `/logout`
 ## Deploy
 
 **Live app:** https://bai-rwtf.onrender.com  
+**Fast entry (recommended):** https://coderbiozed.github.io/bai/ — branded wake page, then opens the app  
 **GitHub:** https://github.com/coderbiozed/bai
 
-### Slow first load?
+### Slow first load / “Application loading”?
 
-Render’s **free** plan sleeps after ~15 minutes idle, so the first visit can wait 30–60s. A GitHub Action (`.github/workflows/keep-warm.yml`) pings `/up` every 10 minutes to keep it awake. For always-on hosting, upgrade the Render web service off the free plan.
+Render’s **free** plan sleeps after idle and shows Render’s own loading screen until the container accepts traffic. We can’t remove that screen on the Render URL itself.
 
-### Important: Netlify / GitHub Pages cannot run Laravel
+What we do instead:
+1. **Keep-warm** GitHub Action pings `/up` every **5 minutes** (and on each push)
+2. **Faster boot** — packaged DB + skip cache warming so the app opens the port sooner after wake
+3. **Wake page** on GitHub Pages — share/bookmark that link so visitors see **bAI** branding while the server wakes, not Render’s spinner
 
-This app needs **PHP + sessions + SQLite**. Netlify and GitHub Pages are static hosts only.
+For **zero** cold starts: upgrade the Render web service off the free plan (always on).
 
-- `netlify-site/` is a fast wake page that polls health then opens Render
-- Real app runs on **Render** via Docker (`Dockerfile` + `render.yaml`)
+### Enable the wake page once
 
-### Render
-
-Auto-deploys from `main`. Blueprint:
-
-[Deploy to Render](https://dashboard.render.com/blueprint/new?repo=https://github.com/coderbiozed/bai)
-
-### Netlify (wake page only)
-
-```bash
-npx netlify deploy --dir=netlify-site --prod
-```
+GitHub → **Settings → Pages → Source: GitHub Actions**. The `Deploy wake page` workflow publishes `docs/` to `https://coderbiozed.github.io/bai/`.
 

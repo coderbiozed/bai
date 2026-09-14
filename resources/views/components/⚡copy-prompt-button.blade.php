@@ -26,8 +26,6 @@ new class extends Component
         async doCopy() {
             try {
                 await navigator.clipboard.writeText(@js($body));
-                $wire.copy();
-                setTimeout(() => $wire.set('copied', false), 1800);
             } catch (e) {
                 const area = document.createElement('textarea');
                 area.value = @js($body);
@@ -35,13 +33,18 @@ new class extends Component
                 area.select();
                 document.execCommand('copy');
                 document.body.removeChild(area);
-                $wire.copy();
-                setTimeout(() => $wire.set('copied', false), 1800);
             }
+            $wire.copy();
+            setTimeout(() => $wire.set('copied', false), 1800);
         }
     }"
 >
-    <button type="button" @click="doCopy()" class="btn-primary">
-        <span x-text="copied ? 'Copied' : 'Copy prompt'"></span>
+    <button
+        type="button"
+        @click="doCopy()"
+        class="btn-primary"
+        style="color:#10002b;background:#c8f542;border:2px solid #c8f542;"
+    >
+        <span class="btn-label" style="color:inherit;" x-text="copied ? 'Copied' : 'Copy prompt'">Copy prompt</span>
     </button>
 </div>

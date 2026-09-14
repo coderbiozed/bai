@@ -53,6 +53,8 @@
 
     .btn-primary { border: 2px solid var(--color-lime); background: var(--color-lime); color: var(--color-deep); box-shadow: 4px 4px 0 var(--color-magenta); }
     .btn-primary:hover { background: var(--color-magenta); border-color: var(--color-magenta); color: white; box-shadow: 4px 4px 0 var(--color-lime); }
+    .btn-primary .btn-label,
+    .btn-secondary .btn-label { color: inherit; }
     .btn-secondary { border: 2px solid rgb(255 255 255 / 0.75); background: rgb(255 255 255 / 0.08); color: white; }
     .btn-secondary:hover { border-color: var(--color-cyan); background: var(--color-cyan); color: var(--color-deep); }
     .btn-ghost { color: var(--color-cyan); }

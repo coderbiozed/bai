@@ -35,7 +35,12 @@ new class extends Component
         }
     }"
 >
-    <button type="button" @click="doCopy()" class="btn-primary">
-        <span x-text="copied || @js($copied) ? 'Copied' : 'Copy prompt'"></span>
+    <button
+        type="button"
+        @click="doCopy()"
+        class="btn-primary"
+        style="color:#10002b;background:#c8f542;border:2px solid #c8f542;"
+    >
+        <span class="btn-label" style="color:inherit;" x-text="copied ? 'Copied' : 'Copy prompt'">Copy prompt</span>
     </button>
 </div>

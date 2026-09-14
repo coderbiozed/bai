@@ -24,7 +24,6 @@ if [ -n "${RENDER_EXTERNAL_URL:-}" ]; then
 fi
 
 # Render generateValue keys break Laravel aes-256. Force a valid key when needed.
-# Prefer a stable key from env if it is already valid.
 php -r '
 $key = getenv("APP_KEY") ?: "";
 $ok = false;
@@ -34,7 +33,6 @@ if (str_starts_with($key, "base64:")) {
 }
 exit($ok ? 0 : 1);
 ' || {
-  # Stable fallback (also set in render.yaml) — avoids 500 on boot.
   export APP_KEY="base64:eOmCqltp/cpmpEdwAkynEMoP8OC9/PKrU7d8UPkvkxY="
   echo "Applied stable valid Laravel APP_KEY"
 }
@@ -63,29 +61,23 @@ rm -f bootstrap/cache/config.php \
       bootstrap/cache/routes.php \
       bootstrap/cache/events.php
 
-# Schema only — library data comes from packaged demo.sqlite (fast cold start).
-php artisan migrate --force --no-interaction
-
-PROMPT_COUNT="$(php -r '
-require "vendor/autoload.php";
-$app = require "bootstrap/app.php";
-$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
-echo Illuminate\Support\Facades\Schema::hasTable("prompts")
-    ? (string) Illuminate\Support\Facades\DB::table("prompts")->count()
-    : "0";
-')"
-
-if [ "${PROMPT_COUNT}" = "0" ] && [ -f database/demo.sqlite ]; then
-  cp database/demo.sqlite database/database.sqlite
-  echo "Re-copied demo.sqlite (prompt count was 0)"
-elif [ "${PROMPT_COUNT}" = "0" ]; then
-  echo "WARNING: empty DB and no demo.sqlite — seeding (slow)..."
-  php artisan db:seed --force --no-interaction
-else
-  echo "Library ready (${PROMPT_COUNT} prompts)"
+# Fast path: restore DB, light migrate, open port ASAP (skip slow cache/seed on boot).
+if [ -f database/demo.sqlite ]; then
+  # Ensure demo data is present without multi-minute seeding.
+  COUNT="$(php -r '
+    try {
+      $db = new PDO("sqlite:database/database.sqlite");
+      $n = (int) $db->query("SELECT COUNT(*) FROM prompts")->fetchColumn();
+      echo $n;
+    } catch (Throwable $e) { echo 0; }
+  ')"
+  if [ "${COUNT}" = "0" ]; then
+    cp database/demo.sqlite database/database.sqlite
+    echo "Re-copied demo.sqlite (empty prompts table)"
+  fi
 fi
 
-php artisan config:cache --no-interaction
-php artisan route:cache --no-interaction || true
+php artisan migrate --force --no-interaction --no-ansi >/tmp/migrate.log 2>&1 || cat /tmp/migrate.log
 
+echo "Starting HTTP server on ${PORT:-8080} (fast boot — no config/route cache)"
 exec php artisan serve --host=0.0.0.0 --port="${PORT:-8080}"
