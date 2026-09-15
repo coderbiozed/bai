@@ -1,6 +1,6 @@
 name: Keep Render warm
 
-# Free Render sleeps after idle; this ping reduces the long "Application loading" screen.
+# Free Render sleeps after idle; frequent pings cut cold-start wait.
 on:
   schedule:
     - cron: "*/5 * * * *"
@@ -11,23 +11,24 @@ on:
 jobs:
   ping:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 6
     steps:
-      - name: Wake bAI (/up then /)
+      - name: Warm critical paths
         run: |
           set +e
-          UP="https://bai-rwtf.onrender.com/up"
-          HOME="https://bai-rwtf.onrender.com/"
-          echo "Waking $UP"
-          # Cold starts can take 1–2 minutes; keep trying.
-          for i in $(seq 1 24); do
-            code=$(curl -sS -o /dev/null -w "%{http_code}" --max-time 45 "$UP" || echo 000)
+          BASE="https://bai-rwtf.onrender.com"
+          echo "Waking $BASE"
+          for i in $(seq 1 30); do
+            code=$(curl -sS -o /dev/null -w "%{http_code}" --max-time 45 "$BASE/up" || echo 000)
             echo "up attempt $i -> HTTP $code"
             if [ "$code" = "200" ]; then
-              curl -sS -o /dev/null -w "home -> %{http_code}\n" --max-time 45 "$HOME" || true
+              # Hit heavy pages so file/view caches stay warm.
+              for path in "/" "/c/instant-solutions/quick-test" "/journeys" "/search?q=prompt"; do
+                curl -sS -o /dev/null -w "$path -> %{http_code} %{time_starttransfer}s\n" --max-time 45 "$BASE$path" || true
+              done
               exit 0
             fi
-            sleep 5
+            sleep 4
           done
-          echo "Still waking after retries (Render may be overloaded)"
+          echo "Still waking after retries"
           exit 0

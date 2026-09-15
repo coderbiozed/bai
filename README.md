@@ -87,6 +87,14 @@ What we do instead:
 
 For **zero** cold starts: upgrade the Render web service off the free plan (always on).
 
+### Faster loads (what we optimize)
+
+- Home + specialty lists are **cached ~3 minutes**
+- Prompt previews are **truncated** (full text only on detail pages)
+- Docker image ships **OPcache + config/route/view cache**
+- Boot skips migrate when the DB schema already exists
+- Keep-warm hits `/`, Instant Solutions, and journeys every 5 minutes
+
 ### Enable the wake page once
 
 GitHub → **Settings → Pages → Source: GitHub Actions**. The `Deploy wake page` workflow publishes `docs/` to `https://coderbiozed.github.io/bai/`.
