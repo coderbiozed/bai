@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             JourneyPlaybookSeeder::class,
             NicheVerticalsSeeder::class,
             NewTopicsSeeder::class,
+            InstantSolutionsSeeder::class,
         ]);
     }
 }

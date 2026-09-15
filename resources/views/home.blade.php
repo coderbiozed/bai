@@ -18,12 +18,14 @@
             Learn AI<br>Language
         </h1>
         <p class="font-soft mt-8 max-w-3xl text-2xl leading-snug text-white/85 sm:text-3xl md:text-4xl">
-            {{ number_format($stats['verified']) }}+ verified prompts. Click a goal. Get every step.
-            Become a great YouTuber — or anything else — one wild prompt at a time.
+            {{ number_format($stats['verified']) }}+ verified prompts. Start with Instant Solutions — hot quick tests for beginners — then go deeper with journeys.
         </p>
         <div class="mt-10 flex flex-wrap gap-4 fade-up-delay">
-            <a href="{{ route('journeys.show', 'become-a-great-youtuber') }}" class="btn-primary text-lg sm:text-xl">
-                Become a Great YouTuber
+            <a href="#instant" class="btn-primary text-lg sm:text-xl">
+                Instant Solutions
+            </a>
+            <a href="{{ route('categories.show', 'instant-solutions') }}" class="btn bg-sun text-deep hover:bg-lime text-lg sm:text-xl">
+                Quick Test Pack
             </a>
             <a href="#journeys" class="btn-secondary text-lg sm:text-xl">All journeys</a>
             <a href="#library" class="btn bg-cyan text-deep hover:bg-magenta hover:text-white text-lg sm:text-xl">
@@ -51,7 +53,9 @@
 <div class="relative z-10 overflow-hidden border-y-4 border-lime bg-ink py-4">
     <div class="marquee-track font-display text-2xl uppercase text-lime sm:text-4xl">
         @foreach ([1, 2] as $loopCopy)
-            <span>Meta Manager</span><span class="text-magenta">✦</span>
+            <span class="text-sun">Instant Solutions</span><span class="text-magenta">✦</span>
+            <span>Quick Test</span><span class="text-cyan">✦</span>
+            <span class="text-coral">Meta Manager</span><span class="text-lime">✦</span>
             <span class="text-cyan">Blog Writer</span><span class="text-sun">✦</span>
             <span class="text-coral">CTO</span><span class="text-lime">✦</span>
             <span>Math Tutor</span><span class="text-magenta">✦</span>
@@ -59,11 +63,48 @@
             <span class="text-coral">Finances</span><span class="text-lime">✦</span>
             <span>SEO Pro</span><span class="text-magenta">✦</span>
             <span class="text-cyan">Article Writer</span><span class="text-sun">✦</span>
-            <span class="text-coral">Media Manager</span><span class="text-lime">✦</span>
-            <span>YouTuber Playbook</span><span class="text-magenta">✦</span>
+            <span class="text-coral">YouTuber Playbook</span><span class="text-lime">✦</span>
         @endforeach
     </div>
 </div>
+
+@if (($instantPrompts ?? collect())->isNotEmpty())
+<section id="instant" class="shell py-20" data-reveal>
+    <div class="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+            <p class="crazy-chip mb-4 bg-sun text-deep">Beginners · Hot · Quick test</p>
+            <h2 class="section-title">Instant<br>Solutions</h2>
+            <p class="font-soft mt-4 max-w-2xl text-xl text-white/70 sm:text-2xl">
+                Copy one prompt. Paste your notes. Test AI quality in seconds — writing, email, code, research, decisions, and more.
+            </p>
+        </div>
+        <a href="{{ route('subcategories.show', ['instant-solutions', 'quick-test']) }}" class="btn-primary shrink-0">
+            Open full pack
+        </a>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        @foreach ($instantPrompts as $prompt)
+            <a href="{{ route('prompts.show', [$prompt->subcategory->category, $prompt->subcategory, $prompt]) }}"
+               class="surface tilt-card group rounded-[1.75rem] p-6 transition hover:-translate-y-1">
+                <div class="flex flex-wrap items-center gap-2">
+                    @if ($prompt->is_best)
+                        <span class="rounded-full border border-lime/40 bg-lime/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-lime">Hot</span>
+                    @endif
+                    <span class="rounded-full border border-sun/40 bg-sun/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-sun">Quick test</span>
+                </div>
+                <h3 class="font-display mt-4 text-xl uppercase leading-tight text-white group-hover:text-lime sm:text-2xl">
+                    {{ $prompt->title }}
+                </h3>
+                <p class="mt-3 line-clamp-3 text-sm leading-relaxed text-white/65">{{ $prompt->body }}</p>
+                <p class="font-accent mt-5 text-sm font-extrabold uppercase text-cyan group-hover:text-sun">
+                    Copy & try →
+                </p>
+            </a>
+        @endforeach
+    </div>
+</section>
+@endif
 
 <section id="journeys" class="shell py-20" data-reveal>
     <div class="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">

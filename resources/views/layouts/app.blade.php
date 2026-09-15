@@ -28,6 +28,7 @@
             </a>
 
             <div class="flex flex-wrap items-center gap-2 sm:gap-4">
+                <a href="{{ route('categories.show', 'instant-solutions') }}" class="nav-link hidden md:inline text-sun">Instant</a>
                 <a href="{{ route('journeys.index') }}" class="nav-link hidden md:inline">Journeys</a>
                 <a href="{{ route('search') }}" class="nav-link hidden md:inline">Search</a>
                 <a href="{{ route('guide') }}" class="nav-link hidden lg:inline">Guide</a>

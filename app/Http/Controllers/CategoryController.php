@@ -30,13 +30,22 @@ class CategoryController extends Controller
             ->take(4)
             ->get();
 
+        $instantPrompts = Prompt::query()
+            ->published()
+            ->whereHas('subcategory', fn ($q) => $q->where('slug', 'quick-test')
+                ->whereHas('category', fn ($c) => $c->where('slug', 'instant-solutions')))
+            ->with(['subcategory.category'])
+            ->orderByDesc('is_best')
+            ->orderBy('id')
+            ->get();
+
         $stats = [
             'prompts' => Prompt::query()->published()->count(),
             'verified' => Prompt::query()->published()->verified()->count(),
             'journeys' => Journey::query()->count(),
         ];
 
-        return view('home', compact('categories', 'bestPrompts', 'featuredJourneys', 'stats'));
+        return view('home', compact('categories', 'bestPrompts', 'featuredJourneys', 'instantPrompts', 'stats'));
     }
 
     public function show(Category $category): View

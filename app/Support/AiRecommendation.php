@@ -55,6 +55,7 @@ class AiRecommendation
             'cto' => ['platform' => 'Cursor', 'model' => 'Claude Sonnet'],
             'math-learning' => ['platform' => 'ChatGPT', 'model' => 'GPT-5'],
             'english-learning' => ['platform' => 'ChatGPT', 'model' => 'GPT-5'],
+            'instant-solutions' => ['platform' => 'ChatGPT', 'model' => 'GPT-5'],
             default => ['platform' => 'ChatGPT', 'model' => 'GPT-5'],
         };
     }
