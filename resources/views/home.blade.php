@@ -85,7 +85,7 @@
 
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         @foreach ($instantPrompts as $prompt)
-            <a href="{{ route('prompts.show', [$prompt->subcategory->category, $prompt->subcategory, $prompt]) }}"
+            <a href="{{ route('prompts.show', [$prompt->subcategory->category->slug, $prompt->subcategory->slug, $prompt->slug]) }}"
                class="surface tilt-card group rounded-[1.75rem] p-6 transition hover:-translate-y-1">
                 <div class="flex flex-wrap items-center gap-2">
                     @if ($prompt->is_best)
@@ -119,7 +119,7 @@
 
     <div class="grid gap-6 md:grid-cols-2">
         @foreach ($featuredJourneys as $index => $journey)
-            <a href="{{ route('journeys.show', $journey) }}"
+            <a href="{{ route('journeys.show', $journey->slug) }}"
                class="surface tilt-card group rounded-[2rem] p-7 sm:p-9"
                style="animation-delay: {{ $index * 0.08 }}s">
                 <div class="flex flex-wrap items-center gap-3">
@@ -151,7 +151,7 @@
 
     <div class="border-y-4 border-white/15">
         @foreach ($categories as $category)
-            <a href="{{ route('categories.show', $category) }}" class="interactive-row group">
+            <a href="{{ route('categories.show', $category->slug) }}" class="interactive-row group">
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h3 class="font-display text-3xl uppercase leading-none text-white transition group-hover:text-sun sm:text-5xl md:text-6xl">
@@ -179,7 +179,7 @@
 
     <div class="grid gap-6 md:grid-cols-2">
         @foreach ($bestPrompts as $prompt)
-            <a href="{{ route('prompts.show', [$prompt->subcategory->category, $prompt->subcategory, $prompt]) }}"
+            <a href="{{ route('prompts.show', [$prompt->subcategory->category->slug, $prompt->subcategory->slug, $prompt->slug]) }}"
                class="surface tilt-card group rounded-[2rem] p-7">
                 <p class="font-accent text-sm font-bold uppercase tracking-[0.18em] text-cyan">
                     {{ $prompt->subcategory->category->name }} · {{ $prompt->subcategory->name }}

@@ -14,9 +14,9 @@ class SubcategoryController extends Controller
     {
         abort_unless($subcategory->category_id === $category->id, 404);
 
-        $cacheKey = "subcat.{$subcategory->id}.list.v1";
+        $cacheKey = "subcat.{$subcategory->id}.list.v2";
 
-        $prompts = Cache::remember($cacheKey, 180, function () use ($subcategory) {
+        $rows = Cache::remember($cacheKey, 180, function () use ($subcategory) {
             $prompts = $subcategory->prompts()
                 ->published()
                 ->with('tags:id,name,slug')
@@ -39,7 +39,13 @@ class SubcategoryController extends Controller
                 $prompt->setAttribute('body', Str::limit(strip_tags((string) $prompt->body), 220));
             }
 
-            return $prompts;
+            return $prompts->toArray();
+        });
+
+        $prompts = collect(json_decode(json_encode($rows)))->map(function ($prompt) {
+            $prompt->tags = collect($prompt->tags ?? []);
+
+            return $prompt;
         });
 
         $subcategory->setRelation('prompts', $prompts);

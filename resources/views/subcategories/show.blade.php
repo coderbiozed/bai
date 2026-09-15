@@ -30,7 +30,7 @@
 
     <div class="mt-12 space-y-4 fade-up-delay">
         @forelse ($subcategory->prompts as $prompt)
-            <a href="{{ route('prompts.show', [$category, $subcategory, $prompt]) }}"
+            <a href="{{ route('prompts.show', [$category->slug, $subcategory->slug, $prompt->slug]) }}"
                class="surface block rounded-3xl p-6 transition hover:-translate-y-0.5 hover:border-teal/25">
                 <div class="flex flex-wrap items-center gap-2">
                     @if ($prompt->is_best)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Journey;
 use App\Models\Prompt;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -13,17 +14,19 @@ class CategoryController extends Controller
 {
     public function index(): View
     {
-        $payload = Cache::remember('home.payload.v2', 180, function () {
+        $payload = Cache::remember('home.payload.v3', 180, function () {
             $categories = Category::query()
                 ->withCount(['subcategories', 'prompts'])
                 ->orderBy('sort_order')
-                ->get(['id', 'name', 'slug', 'description', 'accent', 'sort_order']);
+                ->get(['id', 'name', 'slug', 'description', 'accent', 'sort_order'])
+                ->toArray();
 
             $featuredJourneys = Journey::query()
                 ->withCount('steps')
                 ->where('is_featured', true)
                 ->orderBy('sort_order')
-                ->get(['id', 'title', 'slug', 'tagline', 'sort_order', 'is_featured']);
+                ->get(['id', 'title', 'slug', 'tagline', 'sort_order', 'is_featured'])
+                ->toArray();
 
             $bestPrompts = Prompt::query()
                 ->published()
@@ -55,16 +58,26 @@ class CategoryController extends Controller
                 ->published()
                 ->first();
 
-            $stats = [
-                'prompts' => (int) ($statsRow->prompts ?? 0),
-                'verified' => (int) ($statsRow->verified ?? 0),
-                'journeys' => Journey::query()->count(),
+            return [
+                'categories' => $categories,
+                'featuredJourneys' => $featuredJourneys,
+                'bestPrompts' => $bestPrompts->toArray(),
+                'instantPrompts' => $instantPrompts->toArray(),
+                'stats' => [
+                    'prompts' => (int) ($statsRow->prompts ?? 0),
+                    'verified' => (int) ($statsRow->verified ?? 0),
+                    'journeys' => Journey::query()->count(),
+                ],
             ];
-
-            return compact('categories', 'bestPrompts', 'featuredJourneys', 'instantPrompts', 'stats');
         });
 
-        return view('home', $payload);
+        return view('home', [
+            'categories' => $this->asObjects($payload['categories']),
+            'featuredJourneys' => $this->asObjects($payload['featuredJourneys']),
+            'bestPrompts' => $this->asObjects($payload['bestPrompts']),
+            'instantPrompts' => $this->asObjects($payload['instantPrompts']),
+            'stats' => $payload['stats'],
+        ]);
     }
 
     public function show(Category $category): View
@@ -72,5 +85,13 @@ class CategoryController extends Controller
         $category->load(['subcategories' => fn ($q) => $q->withCount('prompts')]);
 
         return view('categories.show', compact('category'));
+    }
+
+    /**
+     * Nested arrays → stdClass tree inside a Collection (JSON-safe cache).
+     */
+    private function asObjects(array $rows): Collection
+    {
+        return collect(json_decode(json_encode($rows)));
     }
 }
